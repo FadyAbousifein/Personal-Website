@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fady Abousifein</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: #e4e4e4;
+            /* --- ENHANCED BACKGROUND PATTERN --- */
+            background-color: #0d1117;
+            background-image: 
+                linear-gradient(90deg, #1a212c 1px, transparent 1px), /* Lighter line color */
+                linear-gradient(#1a212c 1px, transparent 1px); /* Lighter line color */
+            background-size: 50px 50px; /* Adjust grid size here */
+            /* ----------------------------------- */
+            overflow-x: hidden;
+        }
+
+        /* --- Scrollbar Styling (Chrome, Safari, Opera) --- */
+        body::-webkit-scrollbar {
+            width: 8px; 
+            background: transparent;
+        }
+
+        body::-webkit-scrollbar-track {
+            background: #0d1117; /* Match the body background color */
+        }
+
+        body::-webkit-scrollbar-thumb {
+            background-color: #21262d; 
+            border-radius: 4px;
+            border: 2px solid #0d1117; /* Adds padding/depth */
+        }
+
+        /* For Firefox */
+        body {
+            scrollbar-width: thin;
+            scrollbar-color: #21262d #0d1117;
+        }
+        /* ------------------------------------------------ */
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding: 40px 0;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            color: #ffffff;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            color: #8b949e;
+            margin-bottom: 20px;
+        }
+
+        .links {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .links a {
+            color: #58a6ff;
+            text-decoration: none;
+            padding: 8px 16px;
+            border: 1px solid #58a6ff;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        .links a:hover {
+            background: #58a6ff;
+            color: #0d1117;
+        }
+
+        section {
+            background: #161b22;
+            padding: 40px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+        }
+
+        h2 {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            color: #ffffff;
+            border-bottom: 2px solid #58a6ff;
+            padding-bottom: 10px;
+        }
+
+        .about p {
+            margin-bottom: 15px;
+            color: #c9d1d9;
+        }
+
+        .project {
+            margin-bottom: 40px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid #21262d;
+        }
+
+        .project:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .project h3 {
+            font-size: 1.4em;
+            margin-bottom: 10px;
+            color: #ffffff;
+        }
+
+        .project-meta {
+            color: #8b949e;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+        }
+
+        .project p {
+            color: #c9d1d9;
+            margin-bottom: 15px;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .tech-tag {
+            background: #21262d;
+            color: #58a6ff;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            border: 1px solid #30363d;
+        }
+        
+        /* --- Project Gallery Styling --- */
+        .project-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .project-gallery img {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 4/3; 
+            object-fit: cover;
+            border-radius: 4px;
+            border: 1px solid #30363d;
+            transition: transform 0.2s;
+            cursor: pointer; 
+        }
+
+        .project-gallery img:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        /* ------------------------------- */
+
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            color: #8b949e;
+        }
+
+        /* --- Lightbox/Modal Styling for Full-Screen Image --- */
+        #lightbox-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            padding-top: 50px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.9);
+        }
+
+        #lightbox-content {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 900px;
+            max-height: 90vh;
+            object-fit: contain;
+        }
+
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        /* ----------------------------------------------------- */
+
+        @media (max-width: 1150px) {
+            .container {
+                max-width: 90%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+            
+            section {
+                padding: 25px;
+            }
+
+            .project-gallery {
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            }
+            
+            #lightbox-content {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Fady Abousifein</h1>
+            <p class="subtitle">3rd-year Mechatronics Engineering student @ McMaster University — passionate about embedded systems, PCB design, control systems, and robotics. I love building hardware that actually works — and software that works... sometimes.</p>
+            <div class="links">
+                <a href="mailto:fadyasifein@gmail.com">Email</a>
+                <a href="https://www.linkedin.com/in/fady-abousifein-3026a2224/" target="_blank">LinkedIn</a>
+                <a href="https://github.com/FadyAbousifein" target="_blank">GitHub</a>
+                <a href="resume.pdf" id="resumeLink">Resume</a>
+            </div>
+        </header>
+
+        <section class="about">
+            <h2>About Me</h2>
+            <p>I'm a third year Mechatronics Engineering student at McMaster University with a passion for <strong>embedded systems</strong>, <strong>hardware design</strong>, and <strong>robotics</strong>. I enjoy bridging the gap between software and hardware to create practical, real-world solutions.</p>
+        </section>
+
+        <section id="experience">
+            <h2>Experience</h2>
+
+            <div class="project">
+                <h3>Hardware Design and Simulation Engineering Intern</h3>
+                <p class="project-meta">Skyjack | May 2025 – August 2025</p>
+                <p>Designed a collision detection system using <strong>Arduino</strong> and <strong>ultrasonic sensing</strong> with real-time distance measurement and automated lift-response logic. Built a custom Arduino shield PCB to bridge <strong>24V industrial systems</strong> with <strong>5V microcontrollers</strong>, featuring transistor-based level shifting and DC-DC buck converters.</p>
+                <p>Integrated the complete system via <strong>CAN communication</strong> and validated control logic using <strong>Simulink</strong>, reducing debugging time by resolving issues in simulation before deployment. <strong>Prevented over $100K in losses</strong> by replicating a competitor's product in-house.</p>
+                <div class="tech-stack">
+                    <span class="tech-tag">Arduino</span>
+                    <span class="tech-tag">EasyEDA</span>
+                    <span class="tech-tag">PCB Design</span>
+                    <span class="tech-tag">CAN Communication</span>
+                    <span class="tech-tag">Simulink</span>
+                    <span class="tech-tag">DraftSight</span>
+                    <span class="tech-tag">Ultrasonic Sensors</span>
+                </div>
+                <div class="project-gallery">
+                    <img src="projects/skyjack3.png" alt="Skyjack PCB 3D View 1">
+                    <img src="projects/skyjack4.png" alt="Skyjack PCB 3D View 2">
+                    <img src="projects/skyjack2.png" alt="Skyjack Schematic">
+                    <img src="projects/skyjack1.png" alt="Skyjack PCB Layout">
+                </div>
+            </div>
+
+            <div class="project">
+                <h3>Combinatorial Algorithms Research Assistant</h3>
+                <p class="project-meta">McMaster University | June 2023 – September 2023</p>
+                <p>Translated pseudocode from research papers into efficient <strong>C++ and C algorithms</strong>, enabling testing and validation of <strong>combinatorial optimization techniques</strong> on real-world datasets.</p>
+                <p>Optimized algorithms to reduce <strong>runtime complexity</strong> in targeted cases, accelerating computational experiments and improving performance.</p>
+                <div class="tech-stack">
+                    <span class="tech-tag">C++</span>
+                    <span class="tech-tag">C</span>
+                    <span class="tech-tag">Algorithm Optimization</span>
+                    <span class="tech-tag">Combinatorial Optimization</span>
+                </div>
+            </div>
+
+            <div class="project">
+                <h3>Productive Software Development Research Assistant</h3>
+                <p class="project-meta">University of Waterloo | June 2022 – September 2022</p>
+                <p>Contributed to <strong>The Checker Framework</strong>, a VSCode extension enhancing Java's type system and code safety. Migrated the project from <strong>yarn to npm</strong> to ensure compatibility with the evolving VSCode extension API.</p>
+                <p>Improved project stability and long-term maintainability. Authored and updated project documentation for clear onboarding and version consistency.</p>
+                <div class="tech-stack">
+                    <span class="tech-tag">Java</span>
+                    <span class="tech-tag">VSCode Extensions</span>
+                    <span class="tech-tag">npm</span>
+                    <span class="tech-tag">Professional Documentation</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects">
+            <h2>Projects</h2>
+
+            <div class="project">
+                <h3>Embedded Stepper Motor Control System</h3>
+                <p class="project-meta">McMaster University | April 2024</p>
+                <p>Engineered a real-time stepper motor control system on the <strong>STM32F429ZI</strong> using <strong>mbed OS</strong>. Implemented precise, <strong>non-blocking angular motion control</strong> via Ticker and Timeout without halting program execution.</p>
+                <p>Developed <strong>interrupt-driven controls</strong> for motor direction, speed, and stepping mode with debounced hardware buttons. Created a dynamic <strong>LCD interface</strong> displaying motor parameters and system status for real-time feedback.</p>
+                <div class="tech-stack">
+                    <span class="tech-tag">STM32</span>
+                    <span class="tech-tag">mbed OS</span>
+                    <span class="tech-tag">C++</span>
+                    <span class="tech-tag">Real-Time Control</span>
+                </div>
+                </div>
+
+            <div class="project">
+                <h3>Sequential Digital Circuit Design</h3>
+                <p class="project-meta">McMaster University | December 2023</p>
+                <p>Engineered a sequential digital circuit to drive a <strong>seven-segment display</strong> showing a student ID. Applied <strong>finite state machines (FSMs)</strong>, counters, and <strong>binary-coded decimal (BCD)</strong> encoding for precise sequencing.</p>
+                <p>Designed using <strong>6 JK flip-flops</strong> and optimized Boolean logic via <strong>Karnaugh Map minimization</strong>. Verified in Logisim before building and testing the final design on a breadboard.</p>
+                <div class="tech-stack">
+                    <span class="tech-tag">Digital Logic</span>
+                    <span class="tech-tag">Circuit Simulation/SPICE</span>
+                    <span class="tech-tag">JK Flip-Flops</span>
+                    <span class="tech-tag">Logisim</span>
+                    <span class="tech-tag">Breadboard Prototyping</span>
+                </div>
+                <div class="project-gallery">
+                    <img src="projects/circuit1.png" alt="Sequential Circuit Breadboard Photo">
+                    <img src="projects/circuit2.png" alt="Sequential Circuit Logisim Schematic">
+                </div>
+            </div>
+        </section>
+        <p class="resume-note">Please refer to the full <strong>Resume<strong> linked above for more detailed information.</p>
+        <footer>
+            <p>&copy; 2025 Fady Abousifein. All rights reserved.</p>
+        </footer>
+    </div>
+    
+    <div id="lightbox-modal">
+        <span class="close">&times;</span>
+        <img id="lightbox-content" alt="Full screen image">
+    </div>
+    <script>
+        // Handle resume link
+        document.getElementById('resumeLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('Please upload your resume PDF and update the link in the code!');
+            // Replace with: window.open('path-to-your-resume.pdf', '_blank');
+        });
+
+        // --- Lightbox / Full-Screen Image Script ---
+        const modal = document.getElementById("lightbox-modal");
+        const modalImg = document.getElementById("lightbox-content");
+        
+        // Select all project galleries to ensure all images are clickable
+        const galleries = document.querySelectorAll(".project-gallery");
+        const closeModal = document.getElementsByClassName("close")[0];
+
+        // 1. Open the modal when any image in any gallery is clicked
+        galleries.forEach(gallery => {
+            gallery.addEventListener('click', function(e) {
+                if (e.target.tagName === 'IMG') {
+                    modal.style.display = "block";
+                    modalImg.src = e.target.src;
+                    modalImg.alt = e.target.alt;
+                }
+            });
+        });
+
+        // 2. Close the modal when the close button is clicked
+        closeModal.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // 3. Close the modal when the user clicks anywhere outside of the image
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+        // ---------------------------------------------
+    </script>
+</body>
+</html>
